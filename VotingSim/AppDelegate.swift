@@ -1,18 +1,7 @@
-//
-//  AppDelegate.swift
-//  VotingSim
-//
-//  Created by James Boulter on 10/30/20.
-//  Copyright © 2020 James Boulter. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true

@@ -14,6 +14,9 @@
 		2759FD86254D1E5B002F4BE7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2759FD85254D1E5B002F4BE7 /* Preview Assets.xcassets */; };
 		2759FD89254D1E5B002F4BE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2759FD87254D1E5B002F4BE7 /* LaunchScreen.storyboard */; };
 		2759FD94254D1E5B002F4BE7 /* VotingSimTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759FD93254D1E5B002F4BE7 /* VotingSimTests.swift */; };
+		2759FD9F254D1EBF002F4BE7 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759FD9E254D1EBF002F4BE7 /* Simulator.swift */; };
+		2759FDA1254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759FDA0254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift */; };
+		2759FDA4254DF0C4002F4BE7 /* PopulationGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759FDA3254DF0C4002F4BE7 /* PopulationGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +41,9 @@
 		2759FD8F254D1E5B002F4BE7 /* VotingSimTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VotingSimTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2759FD93254D1E5B002F4BE7 /* VotingSimTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotingSimTests.swift; sourceTree = "<group>"; };
 		2759FD95254D1E5B002F4BE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2759FD9E254D1EBF002F4BE7 /* Simulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
+		2759FDA0254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeededRandomNumberGenerator.swift; sourceTree = "<group>"; };
+		2759FDA3254DF0C4002F4BE7 /* PopulationGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,7 @@
 				2759FD7C254D1E5A002F4BE7 /* AppDelegate.swift */,
 				2759FD7E254D1E5A002F4BE7 /* SceneDelegate.swift */,
 				2759FD80254D1E5A002F4BE7 /* ContentView.swift */,
+				2759FDA2254DF086002F4BE7 /* Simulator */,
 				2759FD82254D1E5B002F4BE7 /* Assets.xcassets */,
 				2759FD87254D1E5B002F4BE7 /* LaunchScreen.storyboard */,
 				2759FD8A254D1E5B002F4BE7 /* Info.plist */,
@@ -105,6 +112,16 @@
 				2759FD95254D1E5B002F4BE7 /* Info.plist */,
 			);
 			path = VotingSimTests;
+			sourceTree = "<group>";
+		};
+		2759FDA2254DF086002F4BE7 /* Simulator */ = {
+			isa = PBXGroup;
+			children = (
+				2759FD9E254D1EBF002F4BE7 /* Simulator.swift */,
+				2759FDA0254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift */,
+				2759FDA3254DF0C4002F4BE7 /* PopulationGenerator.swift */,
+			);
+			path = Simulator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,7 +169,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "James Boulter";
 				TargetAttributes = {
 					2759FD78254D1E5A002F4BE7 = {
@@ -210,6 +227,9 @@
 			files = (
 				2759FD7D254D1E5A002F4BE7 /* AppDelegate.swift in Sources */,
 				2759FD7F254D1E5A002F4BE7 /* SceneDelegate.swift in Sources */,
+				2759FD9F254D1EBF002F4BE7 /* Simulator.swift in Sources */,
+				2759FDA1254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift in Sources */,
+				2759FDA4254DF0C4002F4BE7 /* PopulationGenerator.swift in Sources */,
 				2759FD81254D1E5A002F4BE7 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +290,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -330,6 +351,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
