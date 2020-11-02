@@ -63,13 +63,13 @@ class PopulationGenerator {
     ]
     
     let issues = [
-        Issue(id: "i0",
+        "i0": Issue(id: "i0",
               name: "Abortion rights"
         ),
-        Issue(id: "i1",
+        "i1": Issue(id: "i1",
               name: "Climate conservation"
         ),
-        Issue(id: "i2",
+        "i2": Issue(id: "i2",
               name: "Socialized healthcare"
         ),
     ]
@@ -92,7 +92,7 @@ class PopulationGenerator {
     }
     
     func generateStances() -> [Stance] {
-        issues.map { issue in
+        issues.values.map { issue in
             guard let randomPosition = Position.allCases.randomElement(using: &randomGenerator) else {
                 preconditionFailure("Should never be unable to get a random position")
             }

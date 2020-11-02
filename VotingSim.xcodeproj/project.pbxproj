@@ -17,6 +17,9 @@
 		2759FD9F254D1EBF002F4BE7 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759FD9E254D1EBF002F4BE7 /* Simulator.swift */; };
 		2759FDA1254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759FDA0254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift */; };
 		2759FDA4254DF0C4002F4BE7 /* PopulationGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759FDA3254DF0C4002F4BE7 /* PopulationGenerator.swift */; };
+		27E0A8DC254FC1F600F77C64 /* DataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0A8DB254FC1F600F77C64 /* DataStructures.swift */; };
+		27E0A8E0254FC52200F77C64 /* ElectionSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0A8DF254FC52200F77C64 /* ElectionSimulator.swift */; };
+		27E0A8E4254FC65F00F77C64 /* VoteDecider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0A8E3254FC65F00F77C64 /* VoteDecider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,9 @@
 		2759FD9E254D1EBF002F4BE7 /* Simulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		2759FDA0254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeededRandomNumberGenerator.swift; sourceTree = "<group>"; };
 		2759FDA3254DF0C4002F4BE7 /* PopulationGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationGenerator.swift; sourceTree = "<group>"; };
+		27E0A8DB254FC1F600F77C64 /* DataStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStructures.swift; sourceTree = "<group>"; };
+		27E0A8DF254FC52200F77C64 /* ElectionSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionSimulator.swift; sourceTree = "<group>"; };
+		27E0A8E3254FC65F00F77C64 /* VoteDecider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteDecider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +126,9 @@
 				2759FD9E254D1EBF002F4BE7 /* Simulator.swift */,
 				2759FDA0254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift */,
 				2759FDA3254DF0C4002F4BE7 /* PopulationGenerator.swift */,
+				27E0A8DB254FC1F600F77C64 /* DataStructures.swift */,
+				27E0A8DF254FC52200F77C64 /* ElectionSimulator.swift */,
+				27E0A8E3254FC65F00F77C64 /* VoteDecider.swift */,
 			);
 			path = Simulator;
 			sourceTree = "<group>";
@@ -225,10 +234,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27E0A8DC254FC1F600F77C64 /* DataStructures.swift in Sources */,
 				2759FD7D254D1E5A002F4BE7 /* AppDelegate.swift in Sources */,
 				2759FD7F254D1E5A002F4BE7 /* SceneDelegate.swift in Sources */,
 				2759FD9F254D1EBF002F4BE7 /* Simulator.swift in Sources */,
 				2759FDA1254DF07D002F4BE7 /* SeededRandomNumberGenerator.swift in Sources */,
+				27E0A8E0254FC52200F77C64 /* ElectionSimulator.swift in Sources */,
+				27E0A8E4254FC65F00F77C64 /* VoteDecider.swift in Sources */,
 				2759FDA4254DF0C4002F4BE7 /* PopulationGenerator.swift in Sources */,
 				2759FD81254D1E5A002F4BE7 /* ContentView.swift in Sources */,
 			);

@@ -2,181 +2,82 @@ class Simulator {
     
     var randomGenerator: SeededRandomNumberGenerator
     let populationGenerator: PopulationGenerator
+    let electionSimulator: ElectionSimulator
     
     init() {
         self.randomGenerator = SeededRandomNumberGenerator(seed: 132534342412312214)
         self.populationGenerator = PopulationGenerator(randomGenerator: randomGenerator)
+        self.electionSimulator = ElectionSimulator(voteDecider: VoteDecider())
     }
     
-    // N parties
-    // Each Candidate has a Stance on an Issue
-    // Each Voter has a Stance on all Issues
-    // (Later issues can be linked or associated somehow politically)
-    // Stances can be Positive, Neutral, or Negative (maybe strong and weak pos/neg later)
-    // Each Voter casts a Vote in the Election (multiple elections later)
-    // Each Voter can perfectly see each Candidate's Stances (obscurity later)
+    // N parties [Done]
+    // Each Candidate has a Stance on an Issue [Done]
+    // Each Voter has a Stance on all Issues [Done]
+    // Stances can be Positive, Neutral, or Negative [Done]
+    // Each Voter casts a Vote in the Election [Done]
+    // Each Voter can perfectly see each Candidate's Stances [Done]
     // At the end, the winning Candidate takes office
-    // The Candidate enacts a change to the current state of the world, in the form of +/- change to a Stance's current status
+    // The Candidate enacts a change to the current state of the Government, in the form of +/- change to a Stance's current status
     // Repeat
+    //
+    // Ideas:
+    // Voters have an income, gender, race, etc assigned based off realistic distributions and use that to build stances using probability
+    // Media's affect on voters
+    // Later issues can be linked or associated somehow politically
+    // Maybe strong and weak pos/neg positions later
+    // Multiple elections later
+    // Obscurity of information on candidate's stance later
+    // VP
     func run() {
         let voters = populationGenerator.generateVoters(count: 1000)
+        
         let candidateIdPairs = populationGenerator.candidates.map { ($0.id, $0) }
         let candidatesMap = Dictionary(uniqueKeysWithValues: candidateIdPairs)
-        let election = Election(id: 0, candidates: candidatesMap, voters: voters)
-        let result = run(election: election)
-        print(result)
-    }
-    
-    func run(election: Election) -> ElectionResult {
-        let votes = election.voters.map { voter in
-            decide(voter: voter, in: election)
-        }
         
-        var tally = [Candidate.Id:Int]()
-        for candidate in election.candidates.values {
-            tally[candidate.id] = 0
+        let issueStancePairs = populationGenerator.issues.values.map {
+            ($0.id, Stance(issueId: $0.id, position: .neutral))
         }
-        for vote in votes {
-            tally[vote.candidateId] = (tally[vote.candidateId] ?? 0) + 1
-        }
+        let stancesMap = Dictionary(uniqueKeysWithValues: issueStancePairs)
+        let legislation = Legislation(stances: stancesMap)
         
-        let topCandidate = tally.max { (pairA, pairB) -> Bool in
-            if pairA.value == pairB.value {
-                guard let cA = election.candidates[pairA.key],
-                      let cB = election.candidates[pairB.key] else {
-                    preconditionFailure("Candidates not in election during decision")
+        var government = Government(elections: [],
+                                    voters: voters,
+                                    candidates: candidatesMap,
+                                    currentPresidentId: nil,
+                                    legislation: legislation)
+        
+        for electionId in stride(from: 2020, to: 2025, by: 4) {
+            let election = Election(id: electionId,
+                                    candidates: government.candidates,
+                                    voters: government.voters)
+            let result = electionSimulator.run(election: election)
+            print(result)
+            
+            government.currentPresidentId = result.winner
+            
+            let maxStance = government.currentPresident?.stances.max(by: { pairA, pairB -> Bool in
+                if pairA.value.position == pairB.value.position {
+                    if let issueAName = populationGenerator.issues[pairA.key]?.name,
+                       let issueBName = populationGenerator.issues[pairB.key]?.name {
+                        return issueAName < issueBName
+                    }
                 }
-                return cA.name < cB.name
+                return abs(pairA.value.position.rawValue) < abs(pairB.value.position.rawValue)
+            })
+            
+            guard let presidentStance = maxStance else {
+                preconditionFailure("Can't get top stance for current president \n\(government.currentPresident)")
             }
-            return pairA.value < pairB.value
-        }
-        guard let winner = topCandidate?.key else {
-            preconditionFailure("Can't pick winner")
-        }
-        return ElectionResult(election: election,
-                              winner: winner,
-                              tally: tally,
-                              votes: votes
-        )
-    }
-    
-    func decide(voter: Voter, in election: Election) -> Vote {
-        let candidates = Array(election.candidates.values)
-        let weights = calculateOpinions(of: candidates, for: voter)
-        
-        let bestMatch = weights.max { pairA, pairB -> Bool in
-            if pairA.value == pairB.value {
-                guard let cA = election.candidates[pairA.key],
-                      let cB = election.candidates[pairB.key] else {
-                    preconditionFailure("Candidates not in election during decision")
-                }
-                return cA.name < cB.name
+            let signum = presidentStance.value.position.rawValue.signum()
+            guard let positionToModify = government.legislation.stances[presidentStance.key]?.position else {
+                preconditionFailure("Can't find position to modify")
             }
-            return pairA.value < pairB.value
-        }
-        
-        guard let decidedCandidate = bestMatch?.key else {
-            preconditionFailure("Couldn't pick a candidate in election")
-        }
-        
-        return Vote(voterId: voter.id, electionId: election.id, candidateId: decidedCandidate)
-    }
-    
-    func calculateOpinions(of candidates: [Candidate], for voter: Voter) -> [Candidate.Id:Int] {
-        var weights = [Candidate.Id:Int]()
-        for candidate in candidates {
-            weights[candidate.id] = calculateOpinion(of: candidate, for: voter)
-        }
-        return weights
-    }
-    
-    func calculateOpinion(of candidate: Candidate, for voter: Voter) -> Int {
-        var weight = 0
-        for voterStance in voter.stances {
-            if let candidateStance = candidate.stances[voterStance.issueId] {
-                let diffOnIssue = abs(voterStance.position.rawValue - candidateStance.position.rawValue)
-                let weightForMatchedStance = abs(voterStance.position.rawValue)
-                let weightForThisCandidateOnThisIssue = weightForMatchedStance - diffOnIssue
-                weight += weightForThisCandidateOnThisIssue
+            // TODO: Probably make position just a typealiased Int
+            guard let newPosition = Position(rawValue: positionToModify.rawValue + signum) else {
+                preconditionFailure("Can't make new position with given raw value")
             }
+            
+            government.legislation.stances[presidentStance.key]?.position = newPosition
         }
-        return weight
     }
-}
-
-struct Candidate {
-    typealias Id = String
-    var id: Id
-    var name: String
-    var party: Party
-    var stances: [Issue.Id:Stance]
-}
-
-enum Position: Int, CaseIterable {
-    case positive = 1
-    case neutral = 0
-    case negative = -1
-}
-
-struct Stance {
-    var issueId: Issue.Id
-    var position: Position
-}
-
-struct Issue {
-    typealias Id = String
-    var id: Id
-    var name: String
-}
-
-struct Voter {
-    typealias Id = String
-    var id: String
-    var stances: [Stance]
-}
-
-struct Vote {
-    var voterId: Voter.Id
-    var electionId: Election.Id
-    var candidateId: Candidate.Id
-}
-
-struct Election {
-    typealias Id = Int
-    var id:Id
-    var candidates: [Candidate.Id:Candidate]
-    var voters: [Voter]
-}
-
-struct ElectionResult: CustomDebugStringConvertible {
-    var election: Election
-    var winner: Candidate.Id
-    var tally: [Candidate.Id:Int]
-    var votes: [Vote]
-    
-    var debugDescription: String {
-        var output =
-            """
-            Election \(election.id)
-            Winner: \(election.candidates[winner]?.name ?? "ERROR")
-            Turnout: \(votes.count) votes
-            Tally:\n
-            """
-        for row in tally.sorted(by: { $0.value > $1.value }) {
-            let name = election.candidates[row.key]?.name ?? "ERROR"
-            output.append("\(name): \(row.value)\n")
-        }
-        return output
-    }
-}
-
-enum Party {
-    case democrat
-    case republican
-}
-
-struct World {
-    var elections: [Election]
-    var voters: [Voter.Id:Voter]
-    var candidates: [Candidate.Id:Candidate]
 }
