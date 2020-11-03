@@ -24,8 +24,8 @@ class Simulator {
     // Voters have an income, gender, race, etc assigned based off realistic distributions and use that to build stances using probability
     // Media's affect on voters
     // Later issues can be linked or associated somehow politically
-    // Maybe strong and weak pos/neg positions later
-    // Multiple elections later
+    // Maybe strong and weak pos/neg positions later [Done]
+    // Multiple elections later [Kind of done]
     // Obscurity of information on candidate's stance later
     // VP
     func run() {
@@ -74,8 +74,8 @@ class Simulator {
             guard let positionToModify = government.legislation.stances[presidentStance.key]?.position else {
                 preconditionFailure("Can't find position to modify")
             }
-            // TODO: Probably make position just a typealiased Int
-            let newPosition = positionToModify + signum
+            
+            let newPosition = positionToModify + (signum * 10)
             government.legislation.stances[presidentStance.key]?.position = newPosition
         }
     }
