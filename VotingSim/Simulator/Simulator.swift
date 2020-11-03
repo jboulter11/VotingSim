@@ -35,7 +35,7 @@ class Simulator {
         let candidatesMap = Dictionary(uniqueKeysWithValues: candidateIdPairs)
         
         let issueStancePairs = populationGenerator.issues.values.map {
-            ($0.id, Stance(issueId: $0.id, position: .neutral))
+            ($0.id, Stance(issueId: $0.id, position: 0))
         }
         let stancesMap = Dictionary(uniqueKeysWithValues: issueStancePairs)
         let legislation = Legislation(stances: stancesMap)
@@ -56,27 +56,26 @@ class Simulator {
             government.currentPresidentId = result.winner
             
             let maxStance = government.currentPresident?.stances.max(by: { pairA, pairB -> Bool in
-                if pairA.value.position == pairB.value.position {
+                let absA = abs(pairA.value.position)
+                let absB = abs(pairB.value.position)
+                if absA == absB {
                     if let issueAName = populationGenerator.issues[pairA.key]?.name,
                        let issueBName = populationGenerator.issues[pairB.key]?.name {
                         return issueAName < issueBName
                     }
                 }
-                return abs(pairA.value.position.rawValue) < abs(pairB.value.position.rawValue)
+                return absA < absB
             })
             
             guard let presidentStance = maxStance else {
-                preconditionFailure("Can't get top stance for current president \n\(government.currentPresident)")
+                preconditionFailure("Can't get top stance for current president \n\(String(describing: government.currentPresident))")
             }
-            let signum = presidentStance.value.position.rawValue.signum()
+            let signum = presidentStance.value.position.signum()
             guard let positionToModify = government.legislation.stances[presidentStance.key]?.position else {
                 preconditionFailure("Can't find position to modify")
             }
             // TODO: Probably make position just a typealiased Int
-            guard let newPosition = Position(rawValue: positionToModify.rawValue + signum) else {
-                preconditionFailure("Can't make new position with given raw value")
-            }
-            
+            let newPosition = positionToModify + signum
             government.legislation.stances[presidentStance.key]?.position = newPosition
         }
     }

@@ -33,8 +33,8 @@ class VoteDecider {
         var weight = 0
         for voterStance in voter.stances {
             if let candidateStance = candidate.stances[voterStance.issueId] {
-                let diffOnIssue = abs(voterStance.position.rawValue - candidateStance.position.rawValue)
-                let weightForMatchedStance = abs(voterStance.position.rawValue)
+                let diffOnIssue = abs(voterStance.position - candidateStance.position)
+                let weightForMatchedStance = abs(voterStance.position)
                 let weightForThisCandidateOnThisIssue = weightForMatchedStance - diffOnIssue
                 weight += weightForThisCandidateOnThisIssue
             }

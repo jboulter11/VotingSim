@@ -5,13 +5,13 @@ class PopulationGenerator {
                   party: .republican,
                   stances: [
                     "i0": Stance(issueId: "i0",
-                           position: .negative
+                           position: -100
                     ),
                     "i1": Stance(issueId: "i1",
-                           position: .negative
+                           position: -100
                     ),
                     "i2": Stance(issueId: "i2",
-                           position: .negative
+                           position: -100
                     ),
                   ]
         ),
@@ -20,13 +20,13 @@ class PopulationGenerator {
                   party: .republican,
                   stances: [
                       "i0": Stance(issueId: "i0",
-                             position: .negative
+                             position: -100
                       ),
                       "i1": Stance(issueId: "i1",
-                             position: .negative
+                             position: -100
                       ),
                       "i2": Stance(issueId: "i2",
-                             position: .positive
+                             position: 50
                       ),
                   ]
         ),
@@ -35,13 +35,13 @@ class PopulationGenerator {
                   party: .democrat,
                   stances: [
                       "i0": Stance(issueId: "i0",
-                             position: .positive
+                             position: 80
                       ),
                       "i1": Stance(issueId: "i1",
-                             position: .negative
+                             position: 50
                       ),
                       "i2": Stance(issueId: "i2",
-                             position: .positive
+                             position: 60
                       ),
                   ]
         ),
@@ -50,13 +50,13 @@ class PopulationGenerator {
                   party: .democrat,
                   stances: [
                       "i0": Stance(issueId: "i0",
-                             position: .positive
+                             position: 85
                       ),
                       "i1": Stance(issueId: "i1",
-                             position: .positive
+                             position: 50
                       ),
                       "i2": Stance(issueId: "i2",
-                             position: .positive
+                             position: 65
                       ),
                   ]
         ),
@@ -92,11 +92,11 @@ class PopulationGenerator {
     }
     
     func generateStances() -> [Stance] {
-        issues.values.map { issue in
-            guard let randomPosition = Position.allCases.randomElement(using: &randomGenerator) else {
-                preconditionFailure("Should never be unable to get a random position")
-            }
-            return Stance(issueId: issue.id, position: randomPosition)
+        var stances = [Stance]()
+        for i in 0..<issues.count {
+            let randomPosition = Position.random(in: -100...100, using: &randomGenerator)
+            stances.append(Stance(issueId: "i\(i)", position: randomPosition))
         }
+        return stances
     }
 }

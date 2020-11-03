@@ -6,11 +6,7 @@ struct Candidate {
     var stances: [Issue.Id:Stance]
 }
 
-enum Position: Int, CaseIterable {
-    case positive = 1
-    case neutral = 0
-    case negative = -1
-}
+typealias Position = Int
 
 struct Stance {
     var issueId: Issue.Id
